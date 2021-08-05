@@ -1,4 +1,13 @@
-
+img = "";
+leftWristX = 0;
+leftWristY = 0;
+rightWristX = 0;
+rightWristY = 0;
+scoreLeftWrist = 0;
+scoreRightWrist = 0;
+GameStatus = "";
+paddleX = 325;
+paddleY = 325;
 /*created by prashant shukla */
 
 var paddle2 =10,paddle1=10;
@@ -22,7 +31,13 @@ var ball = {
 }
 
 function setup(){
-  var canvas =  createCanvas(700,600);
+  canvas = createCanvas(650,400);
+	instializeInSetup(ping-pong);
+	video = createCapture(VIDEO);
+	video.size(800,400);
+	video.parent('game_console');
+	poseNet = ml5.poseNet(video, modelLoaded);
+	poseNet.on('pose', gotPoses);
 }
 
 
@@ -38,6 +53,13 @@ function draw(){
  stroke("black");
  rect(0,0,20,700);
  
+ if(scoreRightWrist > 0.2){
+  game();
+    background("#D3D3D3");
+  fill("White");
+  stroke("Black");
+  circle(rightWristX,rightWristY,20);
+}
    //funtion paddleInCanvas call 
    paddleInCanvas();
  
@@ -67,7 +89,22 @@ function draw(){
     move();
 }
 
+function startGame(){
+	GameStatus = "start";
+	document.getElementById("status").innerHTML = "Game Is Loading";
+}
 
+function modelLoaded(){
+	console.log('Model Loaded');
+}
+
+function gotPoses(results){
+	if(results.length > 0){
+		console.log(results);
+		wristX = results[0].pose.wrist.x;
+		wristY = results[0].pose.wrist.y;
+	}
+}
 
 //function reset when ball does notcame in the contact of padde
 function reset(){

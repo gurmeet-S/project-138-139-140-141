@@ -23,7 +23,6 @@ h4{
     color: white;
     line-height: 2;
     margin: 0px;
-    bottom: 0px;
 }
 .modal-dialog{
     width: 90%;
@@ -31,4 +30,10 @@ h4{
 .instruction_image{
     display: inline-block;
     width: 45%;
+}
+video{
+    background: url('game_console.png');
+    background-size: cover;
+    background-position: center;
+    padding: 25px;
 }
