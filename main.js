@@ -8,7 +8,11 @@ scoreRightWrist = 0;
 GameStatus = "";
 paddleX = 325;
 paddleY = 325;
-/*created by prashant shukla */
+
+function preload(){
+  touch = loadSound("ball_touch_paddel.wav");
+	miss = loadSound("missed.wav");
+}
 
 var paddle2 =10,paddle1=10;
 
@@ -68,7 +72,7 @@ function draw(){
     stroke(0,0,250);
     strokeWeight(0.5);
    paddle1Y = mouseY; 
-   rect(paddle1X,paddle1Y,paddle1,paddle1Height,100);
+   rect(paddle1X,mouseY,paddle1,paddle1Height,100);
    
    
     //pc computer paddle
@@ -139,6 +143,10 @@ function drawScore(){
     text(pcscore,555,50)
 }
 
+function restart(){
+  pcscore = 0;
+  playerscore = 0;
+}
 
 //very important function of this game
 function move(){
@@ -154,11 +162,13 @@ function move(){
   if (ball.x-2.5*ball.r/2< 0){
   if (ball.y >= paddle1Y&& ball.y <= paddle1Y + paddle1Height) {
     ball.dx = -ball.dx+0.5; 
+    touch.play();
   }
   else{
     pcscore++;
     reset();
     navigator.vibrate(100);
+    miss.play();
   }
 }
 if(pcscore ==4){
@@ -169,7 +179,7 @@ if(pcscore ==4){
     stroke("white");
     textSize(25)
     text("Game Over!☹☹",width/2,height/2);
-    text("Reload The Page!",width/2,height/2+30)
+    text("Press restart button to play again!",width/2,height/2+30)
     noLoop();
     pcscore = 0;
 }
